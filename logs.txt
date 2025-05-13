@@ -1,8 +1,4 @@
 
-Desenvolver, de forma incremental (com commits claros no Git), uma função que registre mensagens em um arquivo de log e permita a consulta dessas mensagens por meio de uma API REST criada com Express.
-Passo a Passo da Atividade
-
-
 2. Criação da Função de Registro de Logs
 Implemente uma função que adicione mensagens de texto ao arquivo logs.txt sem sobrescrever o conteúdo anterior (ou seja, deve acrescentar ao final do arquivo).
 O formato de cada mensagem deve ser:
@@ -23,11 +19,4 @@ Se não encontrar, retorne uma mensagem de erro e o código apropriado.
 Faça um commit após implementar essa rota.
 
 
-Exemplo de mensagem no arquivo logs.txt
 a1b2c3d4-5678-90ef-gh12-3456ijklmnop - 2024-05-04 14:30:00 - João da Silva  
-
-Obs:
- Cada etapa deve ser registrada com um commit no Git, com mensagens claras que demonstrem o desenvolvimento incremental do projeto.
-
-
-
