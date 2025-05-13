@@ -13,23 +13,27 @@ const fs = require('fs');
 
 app.get('/logs/:id', (req, res) => 
 {
-  const idProcurado = req.params.id;
-  const logs = fs.readFileSync('logs.txt', 'utf-8');
-
-  const logEncontrado = logs.find(log => log.startsWith(idProcurado));
-  if (logEncontrado) 
-  {
-    return res.status(200).json({ log: logEncontrado });
-  } else 
-  {
-    return res.status(404).json({ erro: 'Log não encontrado.' });
-  }
+    try 
+    {
+        const conteudo = fs.readFileSync('logs.txt', 'utf-8');
+        const linhas = conteudo.split('\n'); 
+        const logEncontrado = linhas.find(log => log.startsWith(idProcurado));
+    
+        if (logEncontrado) {
+            return res.status(200).json({ log: logEncontrado });
+        } else {
+            return res.status(404).json({ erro: 'Log não encontrado.'});
+        }
+      } catch (err) {
+            return res.status(500).json({ erro: 'Erro no arquivo' });
+    }
 });
 
 app.post('/logs', (req, res) => 
 {
   const { nome } = req.body;
-  if (!nome) return res.status(400).json({ erro: 'Digite o nome' });
+  if (!nome) 
+    return res.status(400).json({ erro: 'Digite o nome' });
 
   const id = registrarLog(nome);
   res.status(201).json({ mensagem: 'Log registrado.', id });
