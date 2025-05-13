@@ -3,6 +3,8 @@ const app = express();
 const PORT = 3000;
 const { registrarLog } = require('./script');
 
+// node back/index.js ( Para iniciar o servidor )
+
 app.use(express.json());
 
 app.listen(PORT, () => 
