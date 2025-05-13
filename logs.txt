@@ -1,0 +1,79 @@
+
+Desenvolver, de forma incremental (com commits claros no Git), uma função que registre mensagens em um arquivo de log e permita a consulta dessas mensagens por meio de uma API REST criada com Express.
+Passo a Passo da Atividade
+
+
+2. Criação da Função de Registro de Logs
+Implemente uma função que adicione mensagens de texto ao arquivo logs.txt sem sobrescrever o conteúdo anterior (ou seja, deve acrescentar ao final do arquivo).
+O formato de cada mensagem deve ser:
+ <ID único aleatório> - <Data e hora da requisição> - <Nome do aluno>  
+
+Faça um commit após implementar essa função.
+3. Criação da API REST com Express
+Instale o Express e configure o servidor básico.
+Faça um commit com a configuração inicial do Express.
+4. Rota para Adicionar Log
+Crie uma rota /logs que receba o nome do aluno no corpo da requisição, gere o ID e registre a mensagem no arquivo logs.txt usando a função criada.
+Retorne o ID gerado e uma mensagem de sucesso.
+Faça um commit após implementar essa rota.
+5. Rota para Consultar Log por ID
+Crie uma rota GET /logs/:id que procure no arquivo logs.txt pelo ID informado na URL.
+Se encontrar, retorne a mensagem correspondente e um código de sucesso.
+Se não encontrar, retorne uma mensagem de erro e o código apropriado.
+Faça um commit após implementar essa rota.
+
+
+Exemplo de mensagem no arquivo logs.txt
+a1b2c3d4-5678-90ef-gh12-3456ijklmnop - 2024-05-04 14:30:00 - João da Silva  
+
+Obs:
+ Cada etapa deve ser registrada com um commit no Git, com mensagens claras que demonstrem o desenvolvimento incremental do projeto.
+
+7. Avaliação
+
+const fs = require('fs');
+const path = require('path');
+const readline = require('readline');
+
+const caminhoDoArquivo = path.join(__dirname, 'log.txt');
+
+// Verifica se o arquivo existe. Se não, cria.
+if (!fs.existsSync(caminhoDoArquivo)) {
+  fs.writeFileSync(caminhoDoArquivo, '', 'utf8');
+}
+
+// Interface para ler do terminal
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+// Função para registrar no log
+function registrarLog(mensagem) {
+  const dataHora = new Date().toLocaleString();
+  const linha = `[${dataHora}] ${mensagem}\n`;
+
+  fs.appendFile(caminhoDoArquivo, linha, (err) => {
+    if (err) {
+      console.error('Erro ao escrever no log:', err);
+    } else {
+      console.log('Log registrado com sucesso!');
+    }
+    perguntar(); // chama novamente
+  });
+}
+
+// Função recursiva para continuar pedindo input
+function perguntar() {
+  rl.question('Digite uma mensagem para o log (ou "sair" para encerrar): ', (input) => {
+    if (input.toLowerCase() === 'sair') {
+      console.log('Encerrando...');
+      rl.close();
+    } else {
+      registrarLog(input);
+    }
+  });
+}
+
+// Inicia o processo
+perguntar();
