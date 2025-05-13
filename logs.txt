@@ -29,51 +29,5 @@ a1b2c3d4-5678-90ef-gh12-3456ijklmnop - 2024-05-04 14:30:00 - João da Silva
 Obs:
  Cada etapa deve ser registrada com um commit no Git, com mensagens claras que demonstrem o desenvolvimento incremental do projeto.
 
-7. Avaliação
 
-const fs = require('fs');
-const path = require('path');
-const readline = require('readline');
 
-const caminhoDoArquivo = path.join(__dirname, 'log.txt');
-
-// Verifica se o arquivo existe. Se não, cria.
-if (!fs.existsSync(caminhoDoArquivo)) {
-  fs.writeFileSync(caminhoDoArquivo, '', 'utf8');
-}
-
-// Interface para ler do terminal
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
-
-// Função para registrar no log
-function registrarLog(mensagem) {
-  const dataHora = new Date().toLocaleString();
-  const linha = `[${dataHora}] ${mensagem}\n`;
-
-  fs.appendFile(caminhoDoArquivo, linha, (err) => {
-    if (err) {
-      console.error('Erro ao escrever no log:', err);
-    } else {
-      console.log('Log registrado com sucesso!');
-    }
-    perguntar(); // chama novamente
-  });
-}
-
-// Função recursiva para continuar pedindo input
-function perguntar() {
-  rl.question('Digite uma mensagem para o log (ou "sair" para encerrar): ', (input) => {
-    if (input.toLowerCase() === 'sair') {
-      console.log('Encerrando...');
-      rl.close();
-    } else {
-      registrarLog(input);
-    }
-  });
-}
-
-// Inicia o processo
-perguntar();
