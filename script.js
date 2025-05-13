@@ -1,25 +1,13 @@
 const fs = require('fs');
+const { v4: uuidv4 } = require('uuid');
 
 function registrarLog(nomeAluno) {
   const id = uuidv4();
-  const dataHora = new Date().toISOString();
+  const dataHora = new Date().toISOString().replace('T', ' ').split('.')[0];
   const log = `${id} - ${dataHora} - ${nomeAluno}\n`;
 
-  const logEncontrado = logs.find(log => log.startsWith(idProcurado));
-  if (logEncontrado) {
-    return res.status(200).json({ log: logEncontrado });
-  } else {
-    return res.status(404).json({ erro: 'Log não encontrado.' });
-  }
+  fs.appendFileSync('logs.txt', log);
+  return id;
 }
-app.get('/logs/:id', (req, res) => {
-  const idProcurado = req.params.id;
-  const logs = fs.readFileSync('logs.txt', 'utf-8').split('\n');
 
-  const logEncontrado = logs.find(log => log.startsWith(idProcurado));
-  if (logEncontrado) {
-    return res.status(200).json({ log: logEncontrado });
-  } else {
-    return res.status(404).json({ erro: 'Log não encontrado.' });
-  }
-});
+module.exports = { registrarLog };
